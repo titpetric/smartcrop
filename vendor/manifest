@@ -1,0 +1,39 @@
+{
+	"version": 0,
+	"dependencies": [
+		{
+			"importpath": "github.com/artyom/smartcrop",
+			"repository": "https://github.com/artyom/smartcrop",
+			"vcs": "git",
+			"revision": "7a9cbb970c131c778e93f6a3e8d7c1f7cad189dd",
+			"branch": "master",
+			"notests": true
+		},
+		{
+			"importpath": "github.com/bamiaux/rez",
+			"repository": "https://github.com/bamiaux/rez",
+			"vcs": "git",
+			"revision": "74f49a4311a16d4a61dd7dcc0b15c3f75f625e56",
+			"branch": "master",
+			"notests": true
+		},
+		{
+			"importpath": "golang.org/x/image/draw",
+			"repository": "https://go.googlesource.com/image",
+			"vcs": "git",
+			"revision": "069db1da13841f750892417d97b1b059aec960cd",
+			"branch": "master",
+			"path": "/draw",
+			"notests": true
+		},
+		{
+			"importpath": "golang.org/x/image/math/f64",
+			"repository": "https://go.googlesource.com/image",
+			"vcs": "git",
+			"revision": "069db1da13841f750892417d97b1b059aec960cd",
+			"branch": "master",
+			"path": "math/f64",
+			"notests": true
+		}
+	]
+}
