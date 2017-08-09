@@ -2,18 +2,18 @@
 	"version": 0,
 	"dependencies": [
 		{
-			"importpath": "github.com/artyom/smartcrop",
-			"repository": "https://github.com/artyom/smartcrop",
+			"importpath": "github.com/muesli/smartcrop",
+			"repository": "https://github.com/muesli/smartcrop",
 			"vcs": "git",
-			"revision": "7a9cbb970c131c778e93f6a3e8d7c1f7cad189dd",
+			"revision": "22cb36d38c381d4d7dcfa34a75b03a811256d087",
 			"branch": "master",
 			"notests": true
 		},
 		{
-			"importpath": "github.com/bamiaux/rez",
-			"repository": "https://github.com/bamiaux/rez",
+			"importpath": "github.com/nfnt/resize",
+			"repository": "https://github.com/nfnt/resize",
 			"vcs": "git",
-			"revision": "74f49a4311a16d4a61dd7dcc0b15c3f75f625e56",
+			"revision": "891127d8d1b52734debe1b3c3d7e747502b6c366",
 			"branch": "master",
 			"notests": true
 		},
@@ -21,7 +21,7 @@
 			"importpath": "golang.org/x/image/draw",
 			"repository": "https://go.googlesource.com/image",
 			"vcs": "git",
-			"revision": "069db1da13841f750892417d97b1b059aec960cd",
+			"revision": "426cfd8eeb6e08ab1932954e09e3c2cb2bc6e36d",
 			"branch": "master",
 			"path": "/draw",
 			"notests": true
@@ -30,7 +30,7 @@
 			"importpath": "golang.org/x/image/math/f64",
 			"repository": "https://go.googlesource.com/image",
 			"vcs": "git",
-			"revision": "069db1da13841f750892417d97b1b059aec960cd",
+			"revision": "426cfd8eeb6e08ab1932954e09e3c2cb2bc6e36d",
 			"branch": "master",
 			"path": "math/f64",
 			"notests": true

@@ -24,10 +24,16 @@
  *		Michael Wendland <michael@michiwend.com>
  */
 
+/*
+Package smartcrop implements a content aware image cropping library based on
+Jonas Wagner's smartcrop.js https://github.com/jwagner/smartcrop.js
+*/
 package smartcrop
 
 import (
+	"errors"
 	"image"
+	"image/color"
 	"image/jpeg"
 	"image/png"
 	"os"
@@ -36,29 +42,66 @@ import (
 
 func debugOutput(debug bool, img *image.RGBA, debugType string) {
 	if debug {
-		writeImageToPng(img, "./smartcrop_"+debugType+".png")
+		writeImage("png", img, "./smartcrop_"+debugType+".png")
 	}
 }
 
-func writeImageToJpeg(img image.Image, name string) {
+func writeImage(imgtype string, img image.Image, name string) error {
 	if err := os.MkdirAll(filepath.Dir(name), 0755); err != nil {
 		panic(err)
 	}
-	fso, err := os.Create(name)
-	if err != nil {
-		panic(err)
-	}
-	defer fso.Close()
 
-	jpeg.Encode(fso, img, &jpeg.Options{Quality: 100})
+	switch imgtype {
+	case "png":
+		return writeImageToPng(img, name)
+	case "jpeg":
+		return writeImageToJpeg(img, name)
+	}
+
+	return errors.New("Unknown image type")
 }
 
-func writeImageToPng(img image.Image, name string) {
+func writeImageToJpeg(img image.Image, name string) error {
 	fso, err := os.Create(name)
 	if err != nil {
-		panic(err)
+		return err
 	}
 	defer fso.Close()
 
-	png.Encode(fso, img)
+	return jpeg.Encode(fso, img, &jpeg.Options{Quality: 100})
+}
+
+func writeImageToPng(img image.Image, name string) error {
+	fso, err := os.Create(name)
+	if err != nil {
+		return err
+	}
+	defer fso.Close()
+
+	return png.Encode(fso, img)
+}
+
+func drawDebugCrop(topCrop Crop, o *image.RGBA) {
+	width := o.Bounds().Dx()
+	height := o.Bounds().Dy()
+
+	for y := 0; y < height; y++ {
+		for x := 0; x < width; x++ {
+			r, g, b, _ := o.At(x, y).RGBA()
+			r8 := float64(r >> 8)
+			g8 := float64(g >> 8)
+			b8 := uint8(b >> 8)
+
+			imp := importance(topCrop, x, y)
+
+			if imp > 0 {
+				g8 += imp * 32
+			} else if imp < 0 {
+				r8 += imp * -64
+			}
+
+			nc := color.RGBA{uint8(bounds(r8)), uint8(bounds(g8)), b8, 255}
+			o.SetRGBA(x, y, nc)
+		}
+	}
 }

@@ -7,7 +7,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/artyom/smartcrop"
+	"github.com/muesli/smartcrop"
 )
 
 type CropSize struct {
@@ -40,7 +40,7 @@ func main() {
 	results := map[string]image.Rectangle{}
 
 	for _, cropsize := range cropsizes {
-		crop, err := smartcrop.Crop(img, cropsize.x, cropsize.y)
+		crop, err := smartcrop.SmartCrop(img, cropsize.x, cropsize.y)
 		if err != nil {
 			log.Fatal(err)
 		}
