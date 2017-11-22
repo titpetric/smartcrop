@@ -1,5 +1,2 @@
 #!/bin/bash
-if [ ! -d "vendor/github.com/muesli/smartcrop" ]; then
-	gvt fetch github.com/muesli/smartcrop
-fi
-CGO_ENABLED=0 go build main.go
+docker run --net=party -e CGO_ENABLED=0 --rm=true -i -v $(pwd):/go/src/smartcrop -w /go/src/smartcrop golang:1.9-alpine go build main.go
