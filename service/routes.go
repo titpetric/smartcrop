@@ -22,5 +22,6 @@ func mountRoutes(r chi.Router, config *configuration) {
 		r.Use(middleware.Logger)
 	}
 
-	r.Get("/smartcrop/*", smartCropHandler)
+	r.Get("/*", smartCropHandlerGet)
+	r.Put("/*", smartCropHandlerPut)
 }

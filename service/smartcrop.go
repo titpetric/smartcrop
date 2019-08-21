@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"image"
+	"io"
 	"net/http"
 	"os"
 	"path"
@@ -18,18 +19,7 @@ type cropSize struct {
 	x, y int
 }
 
-func smartCrop(filename string) (map[string]image.Rectangle, error) {
-	fullPath := path.Join(config.sourcePath, filename)
-
-	fi, err := os.Open(fullPath)
-	if err != nil {
-		// don't leak local file path information
-		if os.IsNotExist(err) {
-			return nil, errors.New("The requested file doesn't exist")
-		}
-		return nil, err
-	}
-
+func smartCropFromReader(fi io.Reader) (map[string]image.Rectangle, error) {
 	img, _, err := image.Decode(fi)
 	if err != nil {
 		return nil, err
@@ -54,10 +44,31 @@ func smartCrop(filename string) (map[string]image.Rectangle, error) {
 	return results, nil
 }
 
-func smartCropHandler(w http.ResponseWriter, r *http.Request) {
+func smartCrop(filename string) (map[string]image.Rectangle, error) {
+	fullPath := path.Join(config.sourcePath, filename)
+
+	fi, err := os.Open(fullPath)
+	if err != nil {
+		// don't leak local file path information
+		if os.IsNotExist(err) {
+			return nil, errors.New("The requested file doesn't exist")
+		}
+		return nil, err
+	}
+	return smartCropFromReader(fi)
+}
+
+func smartCropHandlerGet(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	filename := chi.URLParam(r, "*")
 	resputil.JSON(w, func() (interface{}, error) {
 		return smartCrop(filename)
+	})
+}
+
+func smartCropHandlerPut(w http.ResponseWriter, r *http.Request) {
+	defer r.Body.Close()
+	resputil.JSON(w, func() (interface{}, error) {
+		return smartCropFromReader(r.Body)
 	})
 }
