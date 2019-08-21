@@ -1,0 +1,17 @@
+workspace:
+  base: /smartcrop
+
+kind: pipeline
+name: build
+
+steps:
+- name: test
+  image: golang:1.12-alpine
+  pull: always
+  environment:
+    CGO_ENABLED: 0
+    CI: circleci
+    GOPROXY: https://proxy.golang.org
+  commands:
+  - apk --no-cache add make git
+  - make build
